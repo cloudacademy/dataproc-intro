@@ -26,13 +26,13 @@ from google.cloud.bigquery.table import *
 # defaults.
 bq = bigquery.Client()
 
-
 # Create a new BigQuery dataset.
-reg_dataset = bq.dataset("natality_regression")
-reg_dataset.create()
+dataset_ref = bq.dataset("natality_regression")
+dataset = bigquery.Dataset(dataset_ref)
+dataset = bq.create_dataset(dataset)
 
 # In the new BigQuery dataset, create a new table.
-table = reg_dataset.table(name="regression_input")
+table_ref = dataset.table('regression_input')
 # The table needs a schema before it can be created and accept data.
 # We create an ordered list of the columns using SchemaField objects.
 schema = []
@@ -44,8 +44,8 @@ schema.append(SchemaField("weight_gain_pounds", "integer"))
 schema.append(SchemaField("apgar_5min", "integer"))
 
 # We assign the schema to the table and create the table in BigQuery.
-table.schema = schema
-table.create()
+table = bigquery.Table(table_ref, schema=schema)
+table = bq.create_table(table)
 
 # Next, we issue a query in StandardSQL.
 # The query selects the fields of interest.
@@ -61,12 +61,10 @@ and apgar_5min is not null
 LIMIT 10000
 """
 
-# We create a query job to save the data to a new table,
-jobname = "natality-extract-" + datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-qj = job.QueryJob(jobname, query, bq)
-qj.write_disposition="WRITE_TRUNCATE"
-qj.use_legacy_sql = False
-qj.destination = table
+# We create a query job to save the data to a new table.
+job_config = bigquery.QueryJobConfig()
+job_config.write_disposition = 'WRITE_TRUNCATE'
+job_config.destination = table_ref
 
-# 'qj.begin' submits the query.
-qj.begin()
+# 'Submit the query.
+query_job = bq.query(query, job_config=job_config)
