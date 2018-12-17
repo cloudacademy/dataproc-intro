@@ -27,6 +27,7 @@ python natality.py
 ```
 ```
 Main python file: gs://ca-dataproc/natality-ml.py
+Jar files: gs://hadoop-lib/bigquery/bigquery-connector-hadoop2-latest.jar
 ```
 ### Customization
 ```
