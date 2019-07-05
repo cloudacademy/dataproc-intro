@@ -7,7 +7,7 @@ Google Cloud Platform Free Trial: https://cloud.google.com/free
 ### Running a Simple Job
 Jar file: file:///usr/lib/spark/examples/jars/spark-examples.jar  
 Main class: org.apache.spark.examples.JavaWordCount  
-Argument: gs://lesv-big-public-data/books/b1232  
+Argument: gs://ca-dataproc/prince.txt  
 
 ### Scaling a Cluster
 Jar file: file:///usr/lib/spark/examples/jars/spark-examples.jar  
