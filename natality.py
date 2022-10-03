@@ -20,6 +20,7 @@ https://cloud.google.com/dataproc/docs/tutorials/bigquery-sparkml.
 
 from google.cloud import bigquery
 from google.cloud.bigquery import job
+from google.cloud.bigquery import SchemaField
 from google.cloud.bigquery.table import *
 
 # Create a new Google BigQuery client using Google Cloud Platform project
